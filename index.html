@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="./src/style.css">
     <title>Sky Box</title>
 </head>
+
 <body>
     <canvas class="scene"></canvas>
     <h2>0</h2>
@@ -23,23 +25,14 @@
     <div class="welcome">
         <div class="game-name">
             <h1 class="original-name">SKY BOX</h1>
-        </div>
+        </div>x
         <p class="description">Click on the screen to capture boxes</p>
         <button class="try-now">Play Now</button>
     </div>
 
-    <body>
-        <lable class=lable for="slider1">STARS
-          <input class="slider" name="slider1" type=range min="10" max="1000" value="20"></input>
-          <div class="value"></div>
-        </lable>
-      <lable class=lable for="slider2">SIZE
-          <input class="slider" name="slider2" type=range min="1" max="50" value="5"></input>
-          <div class="value"></div>
-        </lable>
-        <div class="sky"></div>
-    </body>
+    <audio src="./music.mp3" autoplay="false" loop></audio>
     <script type="module" src="./src/app.js"></script>
+    <script type="module" src="./src/snow.js"></script>
     <script src="https://code.playcanvas.com/playcanvas-latest.min.js"></script>
 </body>
 </html>

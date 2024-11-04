@@ -1,3 +1,4 @@
+import { Camera } from "./camera.js"; 
 // Initialize PlayCanvas app
 const app = new pc.Application(document.querySelector('.scene'), {
     mouse: new pc.Mouse(document.body),
@@ -17,15 +18,7 @@ const boxHeight = 1;  // height of each layer
 
 window.focus();
 
-// Camera setup
-let cameraZ = 12;
-const camera = new pc.Entity();
-camera.addComponent("camera", {
-    clearColor: new pc.Color(17 / 255, 17 / 255, 33 / 255)
-});
-camera.setLocalPosition(12, 7, 12);
-camera.lookAt(new pc.Vec3(0, 1, 0));
-app.root.addChild(camera);
+const camera = new Camera(app);
 
 // Lighting setup
 const light = new pc.Entity();
@@ -37,7 +30,7 @@ light.setLocalPosition(10, 20, 0);
 app.root.addChild(light);
 
 function updateLightIntensity() {
-  const cameraY = camera.getPosition().y;
+  const cameraY = camera.getEntity().getPosition().y;
   const lightIntensity = 1.5 - (cameraY / boxHeight) * 0.02; 
   light.light.intensity = lightIntensity; 
 }
@@ -98,9 +91,10 @@ function createBox(x, y, z, width, depth) {
   
     const box = new pc.Entity();
     box.addComponent("model", {
-      type: "box",
-      material: material,
+        type: "box",
+        material: material
     });
+
     box.setLocalScale(width, boxHeight, depth);
     box.setPosition(x, y, z);
   
@@ -119,24 +113,19 @@ function calculateColor(y) {
     return new pc.Color(r, g, b);
 }
 
-function updateCameraZ() {
-    cameraZ = 12 + (camera.getPosition().y / 20);
-    camera.setLocalPosition(12, camera.getPosition().y, cameraZ);
-}
-
 function animation(dt) {
-    const speed = 7 + (camera.getPosition().y / 20) * 2; 
+    const speed = 7 + (camera.getEntity().getPosition().y / 20) * 2; 
     const topLayer = stack[stack.length - 1];
     const direction = topLayer.direction;
     const position = topLayer.entity.getPosition();
     position[direction] += speed * dt;
   
     topLayer.entity.setPosition(position);
-    if (camera.getPosition().y < boxHeight * (stack.length - 2) + 4) {
-      camera.translateLocal(0, speed * dt, 0);
+    if (camera.getEntity().getPosition().y < boxHeight * (stack.length - 2) + 4) {
+      camera.getEntity().translateLocal(0, speed * dt, 0);
     }
     updateLightIntensity();
-    updateCameraZ();
+    camera.updateCameraZ();
 }
 
 function showScore() {
